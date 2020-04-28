@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <title>Customer Order Records</title>
+</head>
+<body>
+<div class="container-fluid">
+<br>
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-heading text-md-center">
+                <h3>Customer Order Records</h3>
+            </div >
+            <div class="panel-body">
+                <div class="table-responsive-md">
+                <a role="button" href="{{ url_for('index') }}" class="btn btn btn-primary btn-sm" >Back</a>&nbsp;&nbsp;&nbsp;
+                    <input class="btn btn-primary btn-sm " type="button" value="Add" id="add-new"><br>
+                    <table class="table table-striped table-bordered table-hover" id="myTable">
+
+                        <thead>
+                        <tr>
+                            {% for i in labels %}
+                                <td>{{ i }}</td>
+                            {% endfor %}
+                            <td>Action</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for i in content %}
+                            <tr>
+                                {% for j in i %}
+                                    <td>{{ j }}</td>
+                                {% endfor %}
+                                <td><input class="btn btn-success btn-sm" type="button" value="Edit" id="edit-btn">
+                                    <input class="btn btn-warning btn-sm" type="submit" value="Submit" id="submit-btn">
+                                    <input class="btn btn-danger btn-sm" type="button" value="Delete" id="delete-btn">
+                                </td>
+
+
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+<script>
+    (function(){
+      $('#myTable').on('click','#edit-btn', function(events){
+        var $this = $(this),
+              edit_status = $this.attr('edit_status'),
+              status_value = edit_status && 1 == edit_status ? 0 : 1,
+              $td_arr = $this.parent().prevAll('td');
+        $this.val(1 == status_value ? 'Done' : 'Edit').attr('edit_status', status_value);
+        $.each($td_arr, function(){
+          var $td = $(this);
+          if(1 == status_value) {
+            $td.html('<input type="text" value="'+$td.html()+'">');
+          } else if(0 == status_value){
+            $td.html($td.find('input[type=text]').val());
+          }
+        });
+      });
+      $('#myTable').on('click','#submit-btn', function(events){
+                <!--获取当前行的id -->
+
+                var td = event.srcElement.parentElement;
+                var rownum = td.parentElement.rowIndex;
+                <!--获取html表格元素 -->
+                var tab = document.getElementById("myTable");
+
+                 
+                 
+
+                var data = {
+                    "OrderID":tab.rows[rownum].cells[0].innerHTML,
+                    "OrderDate":tab.rows[rownum].cells[1].innerHTML,
+                    "DueDate":tab.rows[rownum].cells[2].innerHTML,
+                    "TotalPrice":tab.rows[rownum].cells[3].innerHTML,
+                    "OrderType":tab.rows[rownum].cells[4].innerHTML,
+                    "OrderStatus":tab.rows[rownum].cells[5].innerHTML,
+                    "EmployeeID":tab.rows[rownum].cells[6].innerHTML,
+                    "CustomerID":tab.rows[rownum].cells[7].innerHTML,
+                    "DesignID":tab.rows[rownum].cells[8].innerHTML,
+                    "ItemID":tab.rows[rownum].cells[9].innerHTML,
+                };
+
+                alert("Updated record: "+data.OrderID)
+
+                $.ajax({
+                    type: "get",
+                    url: "/edit",
+                    data: data,
+                    dataType: "json"
+                    });
+        });
+
+
+        $('#add-new').on('click', function(){
+            var cells = document.getElementById("myTable").rows.item(0).cells.length;
+
+            var table = document.getElementById("myTable");
+              var row = table.insertRow(1);
+
+              var mycells=new Array();
+              for (let i=0; i<cells; i++){
+                  mycells[i] = row.insertCell(0);
+                  mycells[i].innerHTML="NEW";
+              }
+              mycells[0].innerHTML="<input type=\"button\" value=\"Edit\" id=\"edit-new\">\n" +
+                  "                                    <input type=\"submit\" value=\"Submit\" id=\"submit-new\">\n" +
+                  "                                    <input type=\"button\" value=\"Delete\" id=\"delete-btn\">";
+              $('#edit-new').on('click', function(){
+                var $this = $(this),
+              edit_status = $this.attr('edit_status'),
+              status_value = edit_status && 1 == edit_status ? 0 : 1,
+              $td_arr = $this.parent().prevAll('td');
+        $this.val(1 == status_value ? 'Done' : 'Edit').attr('edit_status', status_value);
+        $.each($td_arr, function(){
+          var $td = $(this);
+          if(1 == status_value) {
+            $td.html('<input type="text" value="'+$td.html()+'">');
+          } else if(0 == status_value){
+            $td.html($td.find('input[type=text]').val());
+          }
+        });
+            });
+              $('#submit-new').on('click', function() {
+                  <!--获取当前行的id -->
+
+                  var td = event.srcElement.parentElement;
+                  var rownum = td.parentElement.rowIndex;
+                  <!--获取html表格元素 -->
+                  var tab = document.getElementById("myTable");
+
+
+                  var data = {
+                      "OrderID": tab.rows[rownum].cells[0].innerHTML,
+                      "OrderDate": tab.rows[rownum].cells[1].innerHTML,
+                      "DueDate": tab.rows[rownum].cells[2].innerHTML,
+                      "TotalPrice": tab.rows[rownum].cells[3].innerHTML,
+                      "OrderType": tab.rows[rownum].cells[4].innerHTML,
+                      "OrderStatus": tab.rows[rownum].cells[5].innerHTML,
+                      "EmployeeID": tab.rows[rownum].cells[6].innerHTML,
+                      "CustomerID": tab.rows[rownum].cells[7].innerHTML,
+                      "DesignID": tab.rows[rownum].cells[8].innerHTML,
+                      "ItemID": tab.rows[rownum].cells[9].innerHTML,
+                  };
+
+                  alert("Added new record: " + data.OrderID)
+
+                  $.ajax({
+                      type: "get",
+                      url: "/edit",
+                      data: data,
+                      dataType: "json"
+                  });
+              });
+
+     });
+        $('#myTable').on('click', '#delete-btn', function(events){
+            var ID = $(this).closest('tr').find('td').eq(0).html();
+            $(this).closest('tr').remove();
+
+            alert("Deleted Order: "+ID);
+            $.ajax({
+                      type: "get",
+                      url: "/delete",
+                      data: {"OrderId":ID},
+                      dataType: "json"
+                  });
+          });
+
+
+    })();
+
+</script>
+</body>
+</html>

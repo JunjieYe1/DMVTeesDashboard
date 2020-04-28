@@ -1,0 +1,213 @@
+{% extends "layout.html" %}
+{% block title %}Edit Table{% endblock %}
+{% block head %}
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.20/datatables.min.css"/>
+
+{% endblock %}
+{% block tabName %}<a href="{{ url_for("editable",tableName="Orders") }}">Edit Table</a>{% endblock tabName %}
+{% block content %}
+<div class="container-fluid">
+<br>
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-heading text-md-center">
+                <h3>{{ tableName }}</h3>
+            </div >
+            <div class="panel-body">
+                <div class="table-responsive-md">
+                <a role="button" href="{{ url_for('index') }}" class="btn btn btn-primary btn-sm" >Back</a>&nbsp;&nbsp;&nbsp;
+                    <input class="btn btn-primary btn-sm " type="button" value="Add" id="add-new">
+                <div class="dropdown show">
+                  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Switch Tables
+                  </a>
+
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                  {% for t in table_list %}
+                    <a class="dropdown-item" href="{{ url_for("editable",tableName=t ) }}">{{ t }}</a>
+                      {% endfor %}
+                  </div>
+
+                </div>
+                    <table class="table table-striped table-bordered table-hover" id="myTable">
+
+                        <thead>
+                        <tr>
+                            {% for i in labels %}
+                                <td>{{ i }}</td>
+                            {% endfor %}
+                            <td>Action</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for i in content %}
+                            <tr>
+                                {% for j in i %}
+                                    <td>{{ j }}</td>
+                                {% endfor %}
+                                <td><input class="btn btn-success btn-sm" type="button" value="Edit" id="edit-btn">
+                                    <input class="btn btn-warning btn-sm" type="submit" value="Submit" id="submit-btn">
+                                    <input class="btn btn-danger btn-sm" type="button" value="Delete" id="delete-btn">
+                                </td>
+
+
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}
+
+{% block script %}
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+<script>
+    (function(){
+        var label={{ labels|tojson }};
+            var tableName='{{ tableName }}';
+      $('#myTable').on('click','#edit-btn', function(events){
+        var $this = $(this),
+              edit_status = $this.attr('edit_status'),
+              status_value = edit_status && 1 == edit_status ? 0 : 1,
+              $td_arr = $this.parent().prevAll('td');
+        $this.val(1 == status_value ? 'Done' : 'Edit').attr('edit_status', status_value);
+        $.each($td_arr, function(){
+          var $td = $(this);
+          if(1 == status_value) {
+            $td.html('<input type="text" value="'+$td.html()+'">');
+          } else if(0 == status_value){
+            $td.html($td.find('input[type=text]').val());
+          }
+        });
+      });
+      $('#myTable').on('click','#submit-btn', function(events){
+                <!--get id -->
+
+                var td = event.srcElement.parentElement;
+                  var rownum = td.parentElement.rowIndex;
+
+                  var tab = document.getElementById("myTable");
+
+                  var d={};
+                  for(var c = 0; c < label.length; c++){
+                        var element = tab.rows[rownum].cells[c].innerHTML;
+
+                        if (element!=="NEW" && element !==null) {
+                            d[label[c]]=element;
+                        }
+                  }
+                  if (label[0]!=="NEW" && label[0]!==null){
+                      alert("Updated record: " + d[label[0]])
+                      $.ajax({
+                          type: "get",
+                          url: "/edit/"+'{{ tableName }}',
+                          data: d,
+                          dataType: "json"
+                      });
+
+                  }
+                  else{
+                      alert("Wrong ID input")
+                  }
+        });
+
+
+        $('#add-new').on('click', function(){
+            var cells = document.getElementById("myTable").rows.item(0).cells.length;
+
+            var table = document.getElementById("myTable");
+              var row = table.insertRow(1);
+
+              var mycells=new Array();
+              for (let i=0; i<cells; i++){
+                  mycells[i] = row.insertCell(0);
+                  mycells[i].innerHTML="NEW";
+              }
+              mycells[0].innerHTML="<input class=\"btn btn-success btn-sm\" type=\"button\" value=\"Edit\" id=\"edit-new\">\n" +
+                  "                                    <input class=\"btn btn-warning btn-sm\" type=\"submit\" value=\"Submit\" id=\"submit-new\">\n" +
+                  "                                    <input class=\"btn btn-danger btn-sm\" type=\"button\" value=\"Delete\" id=\"delete-btn\">";
+              $('#edit-new').on('click', function(){
+                var $this = $(this),
+              edit_status = $this.attr('edit_status'),
+              status_value = edit_status && 1 == edit_status ? 0 : 1,
+              $td_arr = $this.parent().prevAll('td');
+        $this.val(1 == status_value ? 'Done' : 'Edit').attr('edit_status', status_value);
+        $.each($td_arr, function(){
+          var $td = $(this);
+          if(1 == status_value) {
+            $td.html('<input type="text" value="'+$td.html()+'">');
+          } else if(0 == status_value){
+            $td.html($td.find('input[type=text]').val());
+          }
+        });
+            });
+              $('#submit-new').on('click', function (message) {
+                  <!--get id -->
+
+                  var td = event.srcElement.parentElement;
+                  var rownum = td.parentElement.rowIndex;
+
+                  var tab = document.getElementById("myTable");
+                  var d= {};
+                  for(var c = 0; c < label.length; c++){
+                        var element = tab.rows[rownum].cells[c].innerHTML;
+
+                        if (element!=="NEW" && element !==null) {
+                            d[label[c]]=element;
+                        }
+
+                  }
+
+                  if (label[0]!=="NEW" && label[0]!==null){
+                      $.ajax({
+                          type: "get",
+                          url: "/edit/"+tableName,
+                          data: d,
+                          dataType: 'json',
+                          success: alert("Added new record: " + d[label[0]])
+                    });
+                  }
+                  else{
+                      alert("Wrong ID input")
+                  }
+
+              });
+
+     });
+        $('#myTable').on('click', '#delete-btn', function(events){
+            var ID = $(this).closest('tr').find('td').eq(0).html();
+            if(confirm('  Confirm Deletion?  '+"\n"+tableName+": " + ID)) {
+                $(this).closest('tr').remove();
+                alert("Deleted "+tableName+": " + ID);
+                $.ajax({
+                    type: "get",
+                    url: "/delete/"+tableName,
+                    data: {"ID": ID},
+                    dataType: "json"
+                });
+            }
+          });
+
+
+    })();
+
+</script>
+{% endblock %}
