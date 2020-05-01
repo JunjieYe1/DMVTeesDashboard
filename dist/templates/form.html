@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>DMV Tees Order Form</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</head>
+
+    
+<body class="bg-primary">
+                <main>
+                    <div>
+                      {% with messages = get_flashed_messages(with_categories=true) %}
+                          <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
+                          {% if messages %}
+                            {% for category, message in messages %}
+                              <div class="alert alert-{{ category }} alert-dismissible" role="alert">
+                              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                              <!-- <strong>Title</strong> --> {{ message }}
+                              </div>
+                            {% endfor %}
+                          {% endif %}
+                        {% endwith %}
+                    </div>
+                    <div class="container">
+                        <div class="row justify-content-center">
+        <div class="p-5 mb-2 bg-light text-dark" >
+        <div><h1 class="text-center"><img src="static/img/logo.png" height="80" class="d-inline-block align-top" alt="">&nbsp;&nbsp;&nbsp;Order Form&nbsp;&nbsp;&nbsp;</h1></div>
+
+        <form role="form" action='{{ url_for('order_form') }}' method="post">
+            <div class="form-group row">
+                <!--First name-->
+                <div class="form-group col-md-6">
+                <label for="fName">First Name:</label>
+                <input type="text" class="form-control" id="fName" placeholder="" name="fName" required="true">
+                </div>
+                <!--Last name-->
+                <div class="form-group col-md-6">
+                <label for="lName">Last Name:</label>
+                <input type="text" class="form-control" id="lName" placeholder="" name="lName" required="true">
+                </div>
+            </div>
+            <!--Address-->
+            <div class="form-group row">
+                <div class="form-group col-md-6">
+                    <label for="inputAddress">Address</label>
+                    <input type="text" class="form-control" name="inputAddress" id="inputAddress" placeholder="1234 Main St" required="true">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputAddress2">Address 2</label>
+                    <input type="text" class="form-control" name="inputAddress2" id="inputAddress2" placeholder="Apartment, studio, or floor">
+                </div>
+
+                    <div class="form-group col-md-6">
+                    <label for="inputCity">City</label>
+                    <input type="text" class="form-control" id="inputCity" name="inputCity" required="true">
+                    </div>
+                    <div class="form-group col-md-4">
+                    <label for="inputState">State</label>
+                    <select id="inputState" name="inputState" required="true" class="form-control">
+                        <option selected>Choose...</option>
+                        <option value="AL">Alabama</option>
+                        <option value="AK">Alaska</option>
+                        <option value="AZ">Arizona</option>
+                        <option value="AR">Arkansas</option>
+                        <option value="CA">California</option>
+                        <option value="CO">Colorado</option>
+                        <option value="CT">Connecticut</option>
+                        <option value="DE">Delaware</option>
+                        <option value="FL">Florida</option>
+                        <option value="GA">Georgia</option>
+                        <option value="HI">Hawaii</option>
+                        <option value="ID">Idaho</option>
+                        <option value="IL">Illinois</option>
+                        <option value="IN">Indiana</option>
+                        <option value="IA">Iowa</option>
+                        <option value="KS">Kansas</option>
+                        <option value="KY">Kentucky</option>
+                        <option value="LA">Louisiana</option>
+                        <option value="ME">Maine</option>
+                        <option value="MD">Maryland</option>
+                        <option value="MA">Massachusetts</option>
+                        <option value="MI">Michigan</option>
+                        <option value="MN">Minnesota</option>
+                        <option value="MS">Mississippi</option>
+                        <option value="MO">Missouri</option>
+                        <option value="MT">Montana</option>
+                        <option value="NE">Nebraska</option>
+                        <option value="NV">Nevada</option>
+                        <option value="NH">New Hampshire</option>
+                        <option value="NJ">New Jersey</option>
+                        <option value="NM">New Mexico</option>
+                        <option value="NY">New York</option>
+                        <option value="NC">North Carolina</option>
+                        <option value="ND">North Dakota</option>
+                        <option value="OH">Ohio</option>
+                        <option value="OK">Oklahoma</option>
+                        <option value="OR">Oregon</option>
+                        <option value="PA">Pennsylvania</option>
+                        <option value="RI">Rhode Island</option>
+                        <option value="SC">South Carolina</option>
+                        <option value="SD">South Dakota</option>
+                        <option value="TN">Tennessee</option>
+                        <option value="TX">Texas</option>
+                        <option value="UT">Utah</option>
+                        <option value="VT">Vermont</option>
+                        <option value="VA">Virginia</option>
+                        <option value="WA">Washington</option>
+                        <option value="WV">West Virginia</option>
+                        <option value="WI">Wisconsin</option>
+                        <option value="WY">Wyoming</option>
+                    </select>
+                    </div>
+                    <div class="form-group col-md-2">
+                    <label for="inputZip">Zip</label>
+                    <input type="text" name="inputZip" required="true" class="form-control" id="inputZip">
+                    </div>
+                </div>
+
+
+            <div class="form-group row">
+                <!--Email-->
+                <div class="form-group col-md-6">
+                <label for="inputEmail">Email</label>
+                <input type="email" name="inputEmail" class="form-control" id="inputEmail" required="true">
+                </div>
+                <!--School/Organization Name-->
+                <div class="form-group col-md-6">
+                <label for="inputOrg">School/Organization Name</label>
+                <input type="text" name="inputOrg" class="form-control" id="inputOrg" required="true">
+                </div>
+            </div>
+
+            <div class="form-group row">
+            <div class="form-group col-md-6">
+                <label for="phone">Enter your phone number:</label>
+                <input type="tel" id="phone" name="phone" class="form-control"
+                           pattern="[0-9]{10}"
+                           required="true">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="apparelType">Apparel Type</label>
+                <select id="inputType" name="inputType" required="true" class="form-control">
+                    <option selected>Choose...</option>
+                    <option value="tShirt">T-Shirts</option>
+                    <option value="hoodie">Hoodies</option>
+                    <option value="longSleeve">Long Sleeve Tees</option>
+                    <option value="longSleeve">Crew Necks</option>
+                    <option value="longSleeve">1/4th Zisp</option>
+                    <option value="longSleeve">Sweatpants</option>
+                    <option value="longSleeve">Hats</option>
+                </select>
+            </div></div>
+
+            <!-- Sizes -->
+            <div class="form-group">
+                <div class="panel-group" id="Size">
+
+                    <div class="panel panel-danger">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#Size" href="#collapseTwo">+ Select Size
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseTwo" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <div class="panel-group" id="Size_Y">
+                                    <div class="panel">
+                                        <a data-toggle="collapse" data-parent="#Size_Y" href="#collapseTwoOne">Youth Size
+                                        </a>
+                                        <div id="collapseTwoOne" class="panel-collapse collapse">
+                                            <div class="panel-body">
+                                                <label for="XS">XS</label>
+                                                <input class="form-control itemCounter" type="number" name="Y_XS" id="Y_XS" placeholder="0"><br><br>
+                                                <label for="S">S</label>
+                                                <input class="form-control itemCounter" type="number" name="Y_S" id="Y_S" placeholder="0"><br><br>
+                                                <label for="M">M</label>
+                                                <input class="form-control itemCounter" type="number" name="Y_M" id="Y_M" placeholder="0"><br><br>
+                                                <label for="L">L</label>
+                                                <input class="form-control itemCounter" type="number" name="Y_L" id="Y_L" placeholder="0"><br><br>
+                                                <label for="XS">XL</label>
+                                                <input class="form-control itemCounter" type="number" name="Y_XL" id="Y_XL" placeholder="0"><br><br>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <div class="panel-group" id="Size_A">
+                                    <div class="panel">
+                                        <a data-toggle="collapse" data-parent="#Size_A" href="#collapseTwoTwo">Adult Size
+                                        </a>
+                                        <div id="collapseTwoTwo" class="panel-collapse collapse">
+                                            <div class="panel-body">
+                                                <label for="XS">XS</label>
+                                                <input class="form-control itemCounter" type="number" name="XS" id="XS" placeholder="0"><br><br>
+                                                <label for="S">S</label>
+                                                <input class="form-control itemCounter" type="number" name="S" id="S" placeholder="0"><br><br>
+                                                <label for="M">M</label>
+                                                <input class="form-control itemCounter" type="number" name="M" id="M" placeholder="0"><br><br>
+                                                <label for="L">L</label>
+                                                <input class="form-control itemCounter" type="number" name="L" id="L" placeholder="0"><br><br>
+                                                <label for="XS">XL</label>
+                                                <input class="form-control itemCounter" type="number" name="XL" id="XL" placeholder="0"><br><br>
+                                                <label for="XXL">2XL</label>
+                                                <input class="form-control itemCounter" type="number" name="XXL" id="XXL" placeholder="0"><br><br>
+                                                <label for="XXL">3XL</label>
+                                                <input class="form-control itemCounter" type="number" name="XXXL" id="XXXL" placeholder="0"><br><br>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+
+            <!-- Design Header -->
+            <h3>Design</h3>
+
+            <!-- Art Help -->
+            <div class="form-group">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="art" id="designHelp" value="designHelp">
+                <label class="form-check-label" for="designHelp">
+                    I would like help making my design
+                </label>
+                </div>
+                <div class="form-check">
+                <input class="form-check-input" type="radio" name="art" id="designDone" value="designDone">
+                <label class="form-check-label" for="designDone">
+                    I already designed on the website
+                </label>
+                </div>
+                <div class="form-check">
+                <input class="form-check-input" type="radio" name="art" id="designFile" value="designFile" >
+                <label class="form-check-label" for="designFile">
+                    I have my own design files
+                </label>
+                </div>
+            </div>
+
+            <!-- Design Header -->
+            <div class="panel-group" id="DesignF">
+
+                <div class="panel panel-danger">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#DesignF" href="#collapseThree">+ Upload Design
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseThree" class="panel-collapse collapse">
+                        <div class="panel-body">
+                                <div class="panel-group" id="accordion21">
+                                    <div class="panel">
+                                        <a data-toggle="collapse" data-parent="#accordion21" href="#collapseThreeOne">Chest
+                                        </a>
+                                        <div id="collapseThreeOne" class="panel-collapse collapse">
+                                            <div class="form-control-group mt-2 ">
+                                            <div class="custom-file mb-2">
+                                            <label class="custom-file-label" for="customFile_left_chest">Left Chest Design</label>
+                                            <input type="file" name="customFile_left_chest" class="custom-file-input" id="customFile_left_chest"><br>
+                                                </div>
+                                                <div class="custom-file mb-2">
+                                            <label class="custom-file-label" for="customFile_full_chest">Full Chest Design</label>
+                                            <input type="file" name="customFile_full_chest" class="custom-file-input" id="customFile_full_chest"><br>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel ">
+                                        <a data-toggle="collapse" data-parent="#accordion21" href="#collapseThreeTwo">Sleeve
+                                        </a>
+                                        <div id="collapseThreeTwo" class="panel-collapse collapse">
+                                            <div class="form-control-group mt-2 ">
+                                            <div class="custom-file mb-2">
+                                            <label class="custom-file-label" for="customFile_upper_back">Upper Back Design</label>
+                                            <input type="file" name="customFile_upper_back" class="custom-file-input" id="customFile_upper_back"><br>
+                                                </div>
+                                                <div class="custom-file mb-2">
+                                            <label class="custom-file-label" for="customFile_full_back">Full Back Design</label>
+                                            <input type="file" name="customFile_full_back" class="custom-file-input" id="customFile_full_back"><br>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel ">
+                                    <a data-toggle="collapse" data-parent="#accordion21" href="#collapseThreeThree">Back
+                                    </a>
+                                    <div id="collapseThreeThree" class="panel-collapse collapse">
+
+                                            <div class="form-control-group mt-2 ">
+                                            <div class="custom-file mb-2">
+                                            <label class="custom-file-label"  for="customFile_right_sleeve">Right Sleeve Design</label>
+                                            <input type="file"  name="customFile_right_sleeve" class="custom-file-input" id="customFile_right_sleeve"><br>
+                                            </div>
+                                                <div class="custom-file mb-2">
+                                            <label class="custom-file-label" for="customFile_left_sleeve">Left Sleeve Design</label>
+                                            <input type="file" name="customFile_left_sleeve" class="custom-file-input" id="customFile_left_sleeve"><br>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel ">
+                                    <a data-toggle="collapse" data-parent="#accordion21" href="#collapseThreeFour">Other
+                                    </a>
+                                    <div id="collapseThreeFour" class="panel-collapse collapse">
+                                        <div class="form-control-group mt-2 ">
+                                            <div class="custom-file mb-2">
+                                            <label class="custom-file-label" for="customFile_hat_front" >Hat Front</label>
+                                            <input type="file" name="customFile_hat_front" class="custom-file-input" id="customFile_hat_front"><br>
+
+                                            </div>
+                                            <div class="custom-file mb-2">
+                                            <label class="custom-file-label" for="customFile_hat_back" >Hat Back</label>
+                                            <input type="file" name="customFile_hat_back" class="custom-file-input" id="customFile_hat_back"><br>
+                                            </div>
+                                            <div class="custom-file mb-2">
+                                            <label class="custom-file-label" for="customFile_leg_left">Leg Left</label>
+                                            <input type="file" name="customFile_leg_left" class="custom-file-input" id="customFile_leg_left"><br>
+                                            </div>
+                                            <div class="custom-file mb-2">
+                                            <label class="custom-file-label" for="customFile_leg_right">Leg Right</label>
+                                            <input type="file" name="customFile_leg_right" class="custom-file-input" id="customFile_leg_right"><br>
+                                            </div>
+                                        </div>
+
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <!--order Date-->
+                <div class="form-group col-md-4">
+                <label for="order_date">Order Date</label>
+                <input type="date" class="form-control" id="order_date" name="order_date" value="2020-01-01">
+
+                </div>
+                <!--Due Date-->
+                <div class="form-group col-md-4">
+                <label for="due_date">Due Date</label>
+                <input type="date" class="form-control" id="due_date" name="due_date" value="2020-01-01">
+                </div>
+                <!-- Total Quantity -->
+                <div class="form-group col-md-4">
+                <label for="quanity">Total Quantity</label>
+                    <output type="number" class="form-control" name="quantity" id="quantity" > </output>
+                </div>
+            </div>
+
+
+            <!-- Pick Up/Deliver -->
+            <label>How would you like to receive your order?</label>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="orderChoice" id="pickUp" value="pickUp">
+                <label class="form-check-label" for="pickUp">
+                    Pick up at DMV Tees
+                </label>
+                </div>
+                <div class="form-check">
+                <input class="form-check-input" type="radio" name="orderChoice" id="ship" value="ship">
+                <label class="form-check-label" for="ship">
+                    Shipped
+                </label>
+                </div><br>
+
+            <!-- Textbox -->
+            <div class="form-group">
+                <label for="comments">Comments? Questions? Specific requests?</label>
+                <textarea class="form-control" id="comments" name="comments" rows="3"></textarea>
+            </div>
+
+            <!-- Submit -->
+            <button type="submit" class="btn btn-primary">Submit</button><br><br>
+
+        </form>
+        </div>  </div></div></main>
+
+</body>
+<script>
+
+    $('.form-group').on('input','.itemCounter',function () {
+        var total=0;
+        $('.form-group .itemCounter').each(function () {
+            var inputVal=$(this).val();
+            if($.isNumeric(inputVal)){
+                total+=parseInt(inputVal);
+            }
+        });
+        $('#quantity').text(total);
+    });
+
+</script>
+</html>

@@ -1,262 +1,239 @@
-{% extends "layout.html" %}
-{% block title %}Index{% endblock %}
-{% block head %}
-  {{ super() }}
-  <style type="text/css">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>DMV Tees Order Form</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="formstyle.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
 
-  </style>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-{% endblock %}
-{% block content %}
+    
+<body>
 
-  <div class="row">
-        <div class="col-xl-3 col-sm-6 mb-3">
-          <div class="card text-white bg-primary o-hidden h-100">
-            <div class="card-body">
-              <div class="card-body-icon">
-                <i class="fa fa-fw fa-comments"></i>
-              </div>
-              <div class="mr-5"><span id="message-count">20</span> New Messages!</div>
-            </div>
-            <a class="card-footer text-white clearfix small z-1" href='#'>
-              <span class="float-left">View Details</span>
-              <span class="float-right">
-                <i class="fa fa-angle-right"></i>
-              </span>
-            </a>
-          </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 mb-3">
-          <div class="card text-white bg-warning o-hidden h-100">
-            <div class="card-body">
-              <div class="card-body-icon">
-                <i class="fa fa-fw fa-list"></i>
-              </div>
-              <div class="mr-5">11 New Tasks!</div>
-            </div>
-            <a class="card-footer text-white clearfix small z-1" href="#">
-              <span class="float-left">View Details</span>
-              <span class="float-right">
-                <i class="fa fa-angle-right"></i>
-              </span>
-            </a>
-          </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 mb-3">
-          <div class="card text-white bg-success o-hidden h-100">
-            <div class="card-body">
-              <div class="card-body-icon">
-                <i class="fa fa-fw fa-shopping-cart"></i>
-              </div>
-              <div class="mr-5"><span id="order-count">123</span> New Orders!</div>
+    <div class="container">
 
-              </div>
-            <a class="card-footer text-white clearfix small z-1" href='{{ url_for('index') }}'>
-              <span class="float-left">View Details</span>
-              <span class="float-right">
-                <i class="fa fa-angle-right"></i>
-              </span>
-            </a>
-          </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 mb-3">
-          <div class="card text-white bg-danger o-hidden h-100">
-            <div class="card-body">
-              <div class="card-body-icon">
-                <i class="fa fa-warning"></i>
-              </div>
-              <div class="mr-5">13 New Tickets!</div>
-            </div>
-            <a class="card-footer text-white clearfix small z-1" href="#">
-              <span class="float-left">View Details</span>
-              <span class="float-right">
-                <i class="fa fa-angle-right"></i>
-              </span>
-            </a>
-          </div>
-        </div>
-      </div>
-    <div class="row">
-        <div class="col-lg-8">
-          <div class="card mb-3">
-            <div class="card-header">
-              <i class="fa fa-bar-chart"></i> Revenue Chart</div>
-            <div class="card-body">
-              <div class="row">
-                <div class="col-sm-8 my-auto">
-                  <canvas id="myBarChart" width="100" height="50"></canvas>
+        <div><H1>< img src="logo.png" width="60" height="60" class="d-inline-block align-top" alt=""> Order Form</H1></div>
 
+        <form action="Form.php"  method="post">
+
+            <div class= "form-row">
+                <!--First name-->
+                <div class="form-group col-md-6">
+                <label for="fName">First Name:</label>
+                <input type="text" class="form-control" id="fName" placeholder="" name="fName">
                 </div>
-                <div class="col-sm-4 text-center my-auto">
-                  <div class="h4 mb-0 text-primary">{{status.Done}}</div>
-                  <div class="small text-muted">Completed Orders</div>
-                  <hr>
-                  <div class="h4 mb-0 text-warning">{{status.OrdersDue}}</div>
-                  <div class="small text-muted">Uncompleted Orders</div>
-                  <hr>
-                  <div class="h4 mb-0 text-success">{{status.Pending}}</div>
-                  <div class="small text-muted">Pending Orders</div>
+                <!--Last name-->
+                <div class="form-group col-md-6">
+                <label for="lName">Last Name:</label>
+                <input type="text" class="form-control" id="lName" placeholder="" name="lName">
                 </div>
-              </div>
             </div>
-            <div class="card-footer small text-muted">Updated /time/ </div>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <!-- Example Notifications Card-->
-          <div class="card mb-3">
-            <div class="card-header">
-              <i class="fa fa-bell-o"></i> Message Feed</div>
-            <div class="list-group list-group-flush small">
-              <div id="message-box">
-                <a class="list-group-item list-group-item-action" href="#">
-                  <div class="media">
-                    <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/45x45" alt="">
-                    <div class="media-body">
-                      <strong>Test</strong>
-                      <strong>Beach</strong>.
-                      <div class="text-muted smaller">Today at 4:31 PM - 1hr ago</div>
-                    </div>
-                  </div>
-                </a>
-                <a class="list-group-item list-group-item-action" href="#">
-                  <div class="media">
-                    <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/45x45" alt="">
-                    <div class="media-body">
-                      <i class="fa fa-code-fork"></i>
-                      <strong>Monica Dennis</strong>forked the
-                      <strong>startbootstrap-sb-admin</strong>repository on
-                      <strong>GitHub</strong>.
-                      <div class="text-muted smaller">Today at 3:54 PM - 2hrs ago</div>
-                    </div>
-                  </div>
-                </a>
-              </div>
-              <a class="list-group-item list-group-item-action" href="#">View all activity...</a>
+            <!--Address-->
+            <div class= "form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputAddress">Address</label>
+                    <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputAddress2">Address 2</label>
+                    <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+                </div>
             </div>
-            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-          </div>
-        </div>
-      </div>
-      <!-- Example DataTables Card-->
+            <div class="form-row">
+                    <div class="form-group col-md-6">
+                    <label for="inputCity">City</label>
+                    <input type="text" class="form-control" id="inputCity">
+                    </div>
+                    <div class="form-group col-md-4">
+                    <label for="inputState">State</label>
+                    <select id="inputState" class="form-control">
+                        <option selected>Choose...</option>
+                        <option value="AL">Alabama</option>
+                        <option value="AK">Alaska</option>
+                        <option value="AZ">Arizona</option>
+                        <option value="AR">Arkansas</option>
+                        <option value="CA">California</option>
+                        <option value="CO">Colorado</option>
+                        <option value="CT">Connecticut</option>
+                        <option value="DE">Delaware</option>
+                        <option value="FL">Florida</option>
+                        <option value="GA">Georgia</option>
+                        <option value="HI">Hawaii</option>
+                        <option value="ID">Idaho</option>
+                        <option value="IL">Illinois</option>
+                        <option value="IN">Indiana</option>
+                        <option value="IA">Iowa</option>
+                        <option value="KS">Kansas</option>
+                        <option value="KY">Kentucky</option>
+                        <option value="LA">Louisiana</option>
+                        <option value="ME">Maine</option>
+                        <option value="MD">Maryland</option>
+                        <option value="MA">Massachusetts</option>
+                        <option value="MI">Michigan</option>
+                        <option value="MN">Minnesota</option>
+                        <option value="MS">Mississippi</option>
+                        <option value="MO">Missouri</option>
+                        <option value="MT">Montana</option>
+                        <option value="NE">Nebraska</option>
+                        <option value="NV">Nevada</option>
+                        <option value="NH">New Hampshire</option>
+                        <option value="NJ">New Jersey</option>
+                        <option value="NM">New Mexico</option>
+                        <option value="NY">New York</option>
+                        <option value="NC">North Carolina</option>
+                        <option value="ND">North Dakota</option>
+                        <option value="OH">Ohio</option>
+                        <option value="OK">Oklahoma</option>
+                        <option value="OR">Oregon</option>
+                        <option value="PA">Pennsylvania</option>
+                        <option value="RI">Rhode Island</option>
+                        <option value="SC">South Carolina</option>
+                        <option value="SD">South Dakota</option>
+                        <option value="TN">Tennessee</option>
+                        <option value="TX">Texas</option>
+                        <option value="UT">Utah</option>
+                        <option value="VT">Vermont</option>
+                        <option value="VA">Virginia</option>
+                        <option value="WA">Washington</option>
+                        <option value="WV">West Virginia</option>
+                        <option value="WI">Wisconsin</option>
+                        <option value="WY">Wyoming</option>
+                    </select>
+                    </div>
+                    <div class="form-group col-md-2">
+                    <label for="inputZip">Zip</label>
+                    <input type="text" class="form-control" id="inputZip">
+                    </div>
+                </div>
 
-      <div class="card mb-3">
-        <div class="card-header">
-          <i class="fa fa-table"></i> Customer Order Records</div>
-        <div class="card-body">
+            
+            <div class="form-row">
+                <!--Email-->
+                <div class="form-group col-md-6">
+                <label for="inputEmail">Email</label>
+                <input type="email" class="form-control" id="inputEmail4">
+                </div>
+                <!--School/Organization Name-->
+                <div class="form-group col-md-6">
+                <label for="comapany">School/Organization Name</label>
+                <input type="text" class="form-control" id="inputPassword4">
+                </div>
+            </div>
 
+            <div class="form-group">  
+                <label for="apparelType">Apparel Type</label>
+                <select id="inputType" class="form-control">
+                    <option selected>Choose...</option>
+                    <option value="tShirt">T-Shirts</option>
+                    <option value="hoodie">Hoodies</option>
+                    <option value="longSleeve">Long Sleeve Tees</option>
+                    <option value="longSleeve">Crew Necks</option>   
+                    <option value="longSleeve">1/4th Zisp</option>     
+                    <option value="longSleeve">Sweatpants</option>  
+                    <option value="longSleeve">Hats</option> 
+                </select> 
+            </div>
 
+            <!-- Sizes -->  
+            <div class="form-group">
+                <div class="panel-group" id="accordion1">
 
+                    <div class="panel panel-danger">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion1" href=" ">+ Select Size
+                                </ a>
+                            </h4>
+                        </div>
+                        <div id="collapseTwo" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <div class="panel-group" id="accordion21">
+                                    <div class="panel">
+                                        <a data-toggle="collapse" data-parent="#accordion21" href="#collapseTwoOne">Youth Size
+                                        </ a>
+                                        <div id="collapseTwoOne" class="panel-collapse collapse">
+                                            <div class="panel-body">
+                                                <label for="yXS">XS</label>
+                                                <input type="number" name="XS" id="XS" placeholder="0"><br><br>
+                                                <label for="yS">S</label>
+                                                <input type="number" name="S" id="S" placeholder="0"><br><br>
+                                                <label for="yM">M</label>
+                                                <input type="number" name="M" id="M" placeholder="0"><br><br>
+                                                <label for="yL">L</label>
+                                                <input type="number" name="L" id="L" placeholder="0"><br><br>
+                                                <label for="yXL">XL</label>
+                                                <input type="number" name="XL" id="XL" placeholder="0"><br><br>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel">
+                                        <a data-toggle="collapse" data-parent="#accordion21" href="#collapseTwoTwo">Adult Size
+                                        </ a>
+                                        <div id="collapseTwoTwo" class="panel-collapse collapse">
+                                            <div class="panel-body">
+                                                <label for="aXS">XS</label>
+                                                <input type="number" name="XS" id="XS" placeholder="0"><br><br>
+                                                <label for="aS">S</label>
+                                                <input type="number" name="S" id="S" placeholder="0"><br><br>
+                                                <label for="aM">M</label>
+                                                <input type="number" name="M" id="M" placeholder="0"><br><br>
+                                                <label for="aL">L</label>
+                                                <input type="number" name="L" id="L" placeholder="0"><br><br>
+                                                <label for="aXL">XL</label>
+                                                <input type="number" name="XL" id="XL" placeholder="0"><br><br>
+                                                <label for="aXXL">2XL</label>
+                                                <input type="number" name="XXL" id="XXL" placeholder="0"><br><br>
+                                                <label for="aXXXL">3XL</label>
+                                                <input type="number" name="XXL" id="XXL" placeholder="0"><br><br>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Design Header -->
+            <h3>Design</h3>  
+            
+            <!-- Art Help -->
+            <div class="form-group">  
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="art" id="designHelp" value="designHelp">
+                <label class="form-check-label" for="designHelp">
+                    I would like help making my design
+                </label>
+                </div>
+                <div class="form-check">
+                <input class="form-check-input" type="radio" name="art" id="designDone" value="designDone">
+                <label class="form-check-label" for="designDone">
+                    I already designed on the website
+                </label>
+                </div>
+                <div class="form-check">
+                <input class="form-check-input" type="radio" name="art" id="designFile" value="designFile" >
+                <label class="form-check-label" for="designFile">
+                    I have my own design files
+                </label>
+                </div>
+            </div>      
+            
+            <!-- Design Header -->
+            <div class="panel-group" id="accordion1">
 
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                <tr>
-                    <th class="text-center">ID</th>
-                    <th class="text-center">OrderDate</th>
-                    <th class="text-center">DueDate</th>
-                    <th class="text-center">Total</th>
-                    <th class="text-center">Priority</th>
-                    <th class="text-center">Type</th>
-                    <th class="text-center">Status</th>
-                    <th class="text-center">Emp</th>
-                    <th class="text-center">Cus</th>
-                    <th class="text-center">Design</th>
-                    <th class="text-center">Item</th>
-
-                </tr>
-                </thead>
-                <tbody>
-                <meta charset="UTF-8">
-                {% for order in orders %}
-                    <tr>
-                        <td>{{ order.OrderID}}</td>
-                        <td>{{ order.OrderDate }}</td>
-                        <td>{{ order.DueDate}}</td>
-                        <td>${{ order.TotalPrice}}</td>
-                        <td id="priority">{{ order.Priority}}</td>
-                        <td>{{ order.OrderType}}</td>
-                        <td>{{ order.OrderStatus}}</td>
-                        <td>{{ order.EmployeeID}}</td>
-                        <td>{{ order.CustomerID}}</td>
-                        <td><a href="javascript:show('{{ order.Img_id}}');">{{ order.DesignID}}</a><img src='{{ order.design_herf }}' style="display:none;"  height="200px" id='{{ order.Img_id}}' alt='{{ order.Img_id}}'/> </td>
-                        <td>{{ order.ItemID}}</td>
-
-                    </tr>
-                  {% endfor %}
-            </tbody>
-
-
-            </table>
-          </div>
-        </div>
-        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-      </div>
-    </div>
-{% endblock %}
-{% block script %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
-    <script >
-
-        var bardata = {{ bar.data|tojson }}; var barlabel={{ bar.label|tojson }};
-        function BuildChart(labels, values) {
-          var ctx = document.getElementById("myBarChart");
-          var myLineChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-              labels: labels,
-              datasets: [{
-                label: "Revenue",
-                backgroundColor: "rgba(2,117,216,1)",
-                borderColor: "rgba(2,117,216,1)",
-                data: values,
-              }],
-            },
-            options: {
-              responsive: true, // Instruct chart js to respond nicely.
-
-              scales: {
-                xAxes: [{
-                  time: {
-                    unit: 'month'
-                  },
-                  gridLines: {
-                    display: false
-                  },
-                  ticks: {
-                    maxTicksLimit: 6
-                  }
-                }],
-                yAxes: [{
-                  ticks: {
-                    min: 0,
-
-                    maxTicksLimit: 5
-                  },
-                  gridLines: {
-                    display: true
-                  }
-                }],
-              },
-              legend: {
-                display: false
-              }
-            }
-          });
-        }
-        var chart = BuildChart(barlabel, bardata);
-        function show(id) {
-            //alert(id);
-            var img = $('#'+id)
-            if(id !== 'No_design') {
-                img.toggle('slow');
-            }
-            else{
-                alert("No design image, please check designs file.")
-            }
-        }
-
-
-    </script>
-        <script src="{{ url_for('static', filename='js/bootstrap-datetimepicker.js') }}" type="text/javascript"></script>
-      <script src="{{ url_for('static', filename='js/orderTable.js') }}" type="text/javascript"></script>
-{% endblock %}
+                <div class="panel panel-danger">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion1" href="#collapseThree">+ Upload Design
+                            </ a>
+                        </h4>
+                    </div>
+                    <div id="collapseThree" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="panel-body">
+                                <div class="panel-group" id="accordion21">

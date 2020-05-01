@@ -3,13 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Print Orders</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
+
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-  <link href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+
   <link href='{{ url_for('static', filename='css/sb-admin.css') }}' rel="stylesheet">
-     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-        crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -27,12 +24,12 @@
             </div >
             <div class="panel-body">
 
-                    <table class="table">
+                    <table class="table" id="dataTable">
 
                         <thead>
                         <tr>
                             {% for i in labels %}
-                                <td>{{ i }}</td>
+                                <th>{{ i }}</th><br>
                             {% endfor %}
 
                         </tr>
@@ -41,7 +38,7 @@
                         {% for i in content %}
                             <tr>
                                 {% for j in i %}
-                                    <td>{{ j }}</td>
+                                    <td style="vertical-align: middle !important;text-align: center;">{{ j|safe }}</td>
                                 {% endfor %}
 
                             </tr>
@@ -49,6 +46,9 @@
                         </tbody>
                     </table>
                 </div>
+            <div class="row">
+            <img src='{{ herf }}' class="rounded mx-auto d-block" height="400px" alt="logo" />
+            </div>
             </div>
 
              <button class="btn btn-primary hidden-print" onclick="myFunction()"><span class="glyphicon glyphicon-print" aria-hidden="true"></span>Print</button>
@@ -61,7 +61,14 @@
 </footer>
 </html>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
 <script>function myFunction() {
     window.print();
 }
+$(document).ready(function() {
+    $(function () {
+        $('#dataTable').DataTable();
+    });
+});
+
 </script>
